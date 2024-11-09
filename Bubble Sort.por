@@ -27,7 +27,7 @@ programa {
           }
         }
       }
-      bubblesort(tamnhoAtual)
+      bubblesort(tamnhoAtual-1)
     }
   }
 }
