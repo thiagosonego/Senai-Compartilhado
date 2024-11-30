@@ -1,0 +1,156 @@
+programa {
+  inteiro quantidadeAvioes = 4
+  inteiro acentos[quantidadeAvioes]
+  inteiro nomeAviao[quantidadeAvioes]
+  inteiro apontador[quantidadeAvioes] = {0, 0, 0, 0}
+  cadeia aviao[quantidadeAvioes][99]
+  cadeia enter
+
+  funcao inicio(){
+    menu()
+  }
+
+  funcao menu(){
+    inteiro opcao = 0
+
+    escreva("Opção 1: Registrar o número de cada avião.\n")
+    escreva("Opção 2: Registrar o quantitativo de assentos disponíveis em cada avião.\n")
+    escreva("Opção 3: Reservar passagem aérea.\n")
+    escreva("Opção 4: Realizar consulta por avião.\n")
+    escreva("Opção 5: Realizar consulta por passageiro.\n")
+    escreva("Opção 6: Encerrar.\n")
+    leia(opcao)
+
+    escolha(opcao){
+      caso 1:
+        registrarAviao()
+      pare
+      caso 2:
+        registrarAcentos()
+      pare
+      caso 3:
+        reservar()
+      pare
+      caso 4:
+        consultaAviao()
+      pare
+      caso 5:
+        consultaPassageiro()
+      pare
+      caso 6:
+        limpar()
+      pare
+    }
+  }
+
+  funcao retornar(){
+    escreva("\n\nAperte enter continuar!\n")
+    leia(enter)
+    limpa()
+    menu()
+  }
+
+  funcao limpar(){
+    para(inteiro a = 0; a < quantidadeAvioes; a++){
+      apontador[a] = 0
+      acentos[a] = 0
+      nomeAviao[a] = 0
+    }
+    retornar()
+  }
+
+  funcao registrarAviao(){
+    para(inteiro a = 0; a < quantidadeAvioes; a++){
+      escreva("Informe o numero do avião ", a, "\n")
+      leia(nomeAviao[a])
+    }
+    retornar()
+  }
+
+  funcao registrarAcentos(){
+    para(inteiro a = 0; a < quantidadeAvioes; a++){
+      escreva("Informe a quantidade de acentos para o avião ", a, "\n")
+      leia(acentos[a])
+    }
+    retornar()
+  }
+
+  funcao reservar(){
+    inteiro a, b, posicao
+    posicao = -1
+    escreva("Informe o avião para o registro\n")
+    leia(a)
+
+    para(b = 0; b < quantidadeAvioes; b++){
+      se(nomeAviao[b] == a){
+        posicao = b
+        escreva("Avião encontrado\n")
+      }
+    }
+
+    se(posicao < 0){
+      escreva("Este avião não existe!\n")
+      retornar()
+    }
+
+    inteiro apont = apontador[posicao]
+    se(apont >= acentos[posicao]){
+      escreva("Não há assentos disponíveis para este avião!\n")
+      retornar()
+    }
+
+    cadeia nome
+    escreva("Informe o nome do passageiro a reservar\n")
+    leia(nome)
+
+    aviao[posicao][apont] = nome
+    apontador[posicao] = apontador[posicao] + 1
+    retornar()
+  }
+
+  funcao consultaAviao(){
+    inteiro a
+    escreva("Informe o avião a ser consultado\n")
+    leia(a)
+    logico encontrado = verdadeiro
+    logico reservas  = verdadeiro
+    para(inteiro b = 0; b < quantidadeAvioes; b++){
+      se(nomeAviao[b] == a){
+        encontrado = falso
+        se(apontador[b] > 0){
+          escreva("Avião ", a, " encontrado, lista de passageiros atuais\n")
+          para(inteiro c = 0; c < apontador[b]; c++){
+            reservas = falso
+            escreva(aviao[b][c], "\n")
+          }
+          escreva("Fim da lista de passageiros atuais!\n")
+        } senao {
+          escreva("Não há reservas realizadas para este avião!\n")
+        }
+      }
+    }
+    se(encontrado){
+      escreva("Este avião não existe!\n")
+    }
+    retornar()
+  }
+
+  funcao consultaPassageiro(){
+    cadeia a
+    escreva("Informe o nome a ser consultado\n")
+    leia(a)
+    logico encontrado = verdadeiro
+    para(inteiro b = 0; b < quantidadeAvioes; b++){
+      para(inteiro c = 0; c < apontador[b]; c++){
+        se(a == aviao[b][c]){
+          encontrado = falso
+          escreva("O passageiro ", a, " está no avião ", nomeAviao[b], " na posicao ", c,"\n")
+        }
+      }
+    }
+    se(encontrado){
+      escreva("Não há reservas realizadas para este passageiro!\n")
+    }
+    retornar()
+  }
+}
