@@ -37,7 +37,7 @@ public class Main {
         opcao = scanner.nextInt();
 
         switch (opcao) {
-            case 1 -> registrarAviao();
+            case 1 :{ registrarAviao(); break;}
             case 2 -> registrarAcentos();
             case 3 -> reservar();
             case 4 -> consultaAviao();
@@ -132,14 +132,21 @@ public class Main {
         boolean encontrado = false;
 
         for (int posicao = 0; posicao < QUANTIDADE_AVIOES; posicao++) {
-            //Testa se o nome do avião é o nome digitado
-                //Se for o nome certo verifica se não está vazio ou se a quantidade de passageiros não é 0
+            if (nomeAviao[posicao] == a) {
+                encontrado = true;
+                int apont = contaPassageiros(nomeAviao[posicao]);
 
-                    
+                if (!aviao.isEmpty() && apont > 0) {
+                    System.out.printf("Aviao %d encontrado, lista de passageiros atuais:\n", a);
                     for (Reserva av : aviao){
-                        //Encontrado o avião e tem passageiros, passa por todos os registros de reserva e imprime o nome do passageiro se o nome do avião for o nome procurado
+                        if (av.NumeroAviao == nomeAviao[posicao])
+                            System.out.println(av.Nome);
                     }
-      
+                    System.out.println("Fim da lista de passageiros atuais!");
+                } else {
+                    System.out.printf("Aviao %d encontrado mas nao ha reservas realizadas para este aviao!\n", a);
+                }
+            }
         }
 
         if (!encontrado) {
@@ -156,7 +163,10 @@ public class Main {
         boolean encontrado = false;
 
         for (Reserva av : aviao){
-            //procura pelo nome do passageiro em todos os aviões imprime o nome e numero do avião e marca se encontrou ele
+            if (av.Nome.equals(nome)){
+                encontrado = true;
+                System.out.printf("O passageiro %s esta no aviao %d.\n", av.Nome, av.NumeroAviao);
+            }
         }
 
         if (!encontrado) {
